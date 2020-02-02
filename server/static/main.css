@@ -1,0 +1,20 @@
+table {
+    text-align: left;
+}
+
+th,td {
+    padding: 5px;
+}
+
+.main-table {
+    border: 1px solid black;
+}
+
+body {
+    background-color: cadetblue;
+}
+
+a {
+    color: blue;
+    font-style: normal;
+}

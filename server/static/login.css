@@ -1,0 +1,156 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+
+* {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 500;
+}
+
+body {
+    background: url("media/loginbg.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #fff;
+}
+
+body h1 {
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+} 
+
+#mainContainer {
+    background-color: rgb(33,35,36);
+    border-radius: 15px;
+    width: 350px;
+    height: 400px;
+}
+
+#formContainer {
+    /* background-color: pink; */
+    text-align: center;
+    width: 100%;
+    height: 90%;
+    font-size: 26px;
+}
+
+#textContainer {
+    background-color: antiquewhite;
+    margin: 0;
+    height: 40px;
+}
+
+.fa-lock {
+    background-color: gray;
+    padding: 9px 10px 8px 13px;
+    margin-bottom: 10px;
+    margin-right: -5px;
+
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 2px solid #636363;
+    border-right: transparent;
+
+    vertical-align: middle;
+}
+
+#accessCode {
+    background-color: transparent;
+    margin: 0px 0px 10px 0px;
+    padding: 10px;
+    vertical-align: middle;
+
+    border: 2px solid #636363;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    color: #fff;
+    font-size: 18px;
+}
+
+#accessCode:hover {
+    border: 2px solid pink;
+}
+
+#accessCode:focus{
+    border: 2px solid pink;
+    outline: none;
+}
+
+#accessCode::placeholder {
+    color: white;
+}
+
+#accessCode::-ms-input-placeholder  {
+    color: white;
+}
+
+#accessCode:focus::placeholder {
+    color: transparent;
+}
+
+#login-button {
+    background-image: linear-gradient(to right, #654ea3,#eaafc8,#654ea3);
+    background-position: left;
+    background-size: 200%;
+    transition: 0.25s;
+    cursor: pointer;
+
+    width: 50%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#login-button:hover {
+    background-position: right;
+}
+
+#me {
+    height: 150px;
+    width: 150px;
+    margin: 20px auto;
+    /* margin-bottom: 30px; 
+    margin-top: 10px; */
+    border-radius: 50%;
+}
+
+#codeRequest {
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+    margin: 5px;
+}
+
+#reachOut {
+    color: #8f6ee7 !important;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#reachOut:hover {
+    color: #eaafc8 !important;
+    font-weight: bold;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem; 
+
+    font-style: italic;
+}

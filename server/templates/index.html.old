@@ -1,0 +1,189 @@
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+		integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
+</head>
+
+<body background="{{url_for('static',filename='media/loginbg.jpg')}}" style="background-repeat: no-repeat; 
+		background-position: center; 
+		background-attachment: fixed; 
+		background-size: cover;">
+
+	<!-- Breadcrumbs -->
+	<nav class="navbar bg-nav" aria-label="breadcrumb" style="align-items: center;">
+		<ol class="breadcrumb">
+			{% for past in past_folders[:-1] %}
+			<li class="breadcrumb-item">
+				<a href="{{url_for('web.change_path', path=past.hash)}}">{{past.name}}</a>
+			</li>
+			{% endfor %}
+			<li class="breadcrumb-item active" aria-current="page">{{past_folders[-1].name}}</li>
+		</ol>
+		<a class="nav-link" href="{{ url_for('web.logout') }}" method="POST">
+			<span class="text-info h5">Logout</span>
+		</a>
+	</nav>
+
+	<!-- MAIN -->
+	<div class="container" style="padding-top: 20;">
+
+		<!-- Create and Upload -->
+		<div class="row justify-content-space-between">
+			<div class="col-6">
+				<form action="{{url_for('web.new_folder', path=hash)}}" method="POST" enctype="multipart/form-data">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">
+								<i class="fa fa-folder-plus fa-lg text-white"></i>
+							</span>
+						</div>
+						<input type="text" name="filename" class="form-control bg-dark text-white"
+							placeholder="Folder Name" id="dirname" on="handleDirnameChange()" />
+						<div class="input-group-append">
+							<input type="submit" class="form-control btn btn-secondary disabled text-white" disabled
+								id="create_dir" value="Create">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-6">
+				<form action="{{url_for('web.upload_file', path=hash)}}" method="POST" enctype="multipart/form-data">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">
+								<i class="fa fa-upload fa-lg text-white"></i>
+							</span>
+						</div>
+						<input id="file_upload" type="file" name="file" style="display: none" ;
+							onChange="update_filename()" />
+						<label for="file_upload" class="form-control bg-dark text-light disabled"
+							id="filename_label">File Name</label>
+						<div class="input-group-append">
+							<input type="submit" class="form-control btn btn-secondary disabled text-white" id="file_upload_button"
+								value="Upload" disabled>
+						</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- File Display -->
+		<Table class="table table-hover bg-table">
+			<thead style="background: rgba(160,175,252,0.5);">
+				<tr>
+					<th style="width: 20"></th>
+					<th style="width: 50%;">Filename</th>
+					<th>Action</th>
+					<th>Alt</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align: center;"><i class="fa fa-folder text-warning fa-lg"></i></td>
+					<td>.....</td>
+					<td><a class="text-warning" href="{{url_for('web.change_path', path=parent_path)}}">Go
+							Back</a>
+					</td>
+					<!-- <td><a class="code-color" href="{{url_for('web.zip_dir', path=hash)}}">Zip</a></td> -->
+					<td></td>
+				</tr>
+				{% for file in files %}
+				<tr>
+					<td style="text-align: center;">
+						{% if file.extension in ['.sh','.js','.py', '.html', '.css'] %}
+						<i class="fa fa-code fa-lg code-color" aria-hidden="true"></i>
+						{% elif file.extension in ['.txt', '.doc', '.docx'] %}
+						<i class="fa fa-align-left fa-lg" aria-hidden="true"></i>
+						{% elif file.extension in ['.jpg', '.jpeg', '.png', '.tif', '.gif'] %}
+						<i class="fa fa-camera-retro fa-lg photo-color" aria-hidden="true"></i>
+						{% elif file.extension in ['.zip','.rar'] %}
+						<i class="fa fa-archive fa-lg archive-color" aria-hidden="true"></i>
+						{% elif file.extension in ['.mp3', '.wav'] %}
+						<i class="fa fa-file-audio fa-lg text-success" aria-hidden="true"></i>
+						{% elif file.extension == '.pdf' %}
+						<i class="fa fa-file-pdf fa-lg text-success" aria-hidden="true"></i>
+						{% elif file.is_dir %}
+						<i class="fa fa-folder text-info fa-lg" aria-hidden="true"></i>
+						{% else %}
+						<i class="fa fa-file text-success fa-lg" aria-hidden="true"></i>
+						{% endif %}
+					</td>
+					<td>
+						{% if file.is_dir %}
+						<a href="{{url_for('web.change_path', path=file.hash)}}" class="text-white"
+							style="text-decoration: none; text-decoration: none;">{{file.filename}}/</a>
+						{% else %}
+						{{file.filename}}
+						{% endif %}
+					</td>
+					<td>
+						{% if file.is_dir %}
+						<a class="text-info" href="{{url_for('web.change_path', path=file.hash)}}">Enter</a>
+						{% else %}
+						<a href="{{url_for('api.download_file', path=file.hash)}}">Download</a>
+						{% endif %}
+					</td>
+					<td>
+						{% if file.extension == '.zip' %}
+						<a href="{{url_for('web.unzip', path=file.hash)}}" class="text-info">Unzip</a>
+						{% elif file.is_dir %}
+						<a href="{{url_for('web.zip_dir', path=file.hash)}}" class="text-info">Zip</a>
+						{% endif %}
+					<td>
+						{% if file.is_dir %}
+						<a href="{{url_for('web.delete_folder', path=file.hash)}}" class="text-danger">Delete Folder</a>
+						{% else %}
+						<a href="{{url_for('web.delete_file', path=file.hash)}}" class="text-danger">Delete File</a>
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</Table>
+	</div>
+
+	<script>
+		function send_file() {
+			console.log(document.getElementById("file_upload").form.submit())
+		}
+
+		function update_filename() {
+			const filename = document.getElementById("file_upload").files[0].name
+
+			var filename_label = document.getElementById("filename_label")
+			filename_label.innerHTML = filename
+			filename_label.classList.remove("text-light")
+			filename_label.classList.add("text-white")
+
+			var button = document.getElementById("file_upload_button")
+			button.disabled = false
+			button.classList.remove("disabled")
+			button.classList.add("btn-info")
+
+		}
+
+		document.getElementById("dirname").addEventListener("keyup", function () {
+			const text = document.getElementById("dirname").value
+			const create_btn = document.getElementById("create_dir")
+			if (text.length > 0) {
+				create_btn.disabled = false
+				create_btn.classList.remove("disabled")
+				create_btn.classList.remove("btn-secondary")
+				create_btn.classList.add("btn-info")
+			} else {
+				create_btn.disabled = true
+				create_btn.classList.add("disabled")
+				create_btn.classList.remove("btn-info")
+				create_btn.classList.add("btn-secondary")
+			}
+		})
+
+		function handleDirnameChange() {
+			console.log(text)
+			console.log(text.length)
+		}
+	</script>
+
+</body>
+</body/html>

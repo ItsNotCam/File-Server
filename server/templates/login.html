@@ -1,0 +1,36 @@
+<html>
+
+<title>File Server</title>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="mainContainer" class="container">
+        <div id="formContainer" class="container">
+            <!-- <h1>Auth</h1> -->
+            <img src="{{ url_for('static', filename='media/me.jpg') }}" id="me">
+            <form class="form" action="{{url_for('web.login')}}" method="POST">
+                <i class="fas fa-lock" style="color: #fff;"></i>
+                <input type="password" placeholder="Code" name="access_code" id="accessCode" require>
+                <div id="codeRequest">
+                    {% if message %}
+                    <span style="color: {{message.color}}; font-size: large;">
+                        {{message.message}}
+                    </span>
+                    {% else %}
+                    <span style="color: white; font-size: large;">
+                        Fileserver Login
+                    </span>
+                    {% endif %}
+                </div>
+                <input type="submit" id="login-button" value="Enter Site">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
