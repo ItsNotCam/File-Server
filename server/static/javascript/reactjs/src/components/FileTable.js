@@ -187,18 +187,16 @@ export default class Table extends Component {
   };
 
   downloadFile = (hash, callback) => {
-    console.log(`Downloading ${hash}`);
     const link = document.createElement("a");
     link.href = `${base_url}/file/${hash}/download`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
     callback();
   };
 
   changeDir = hash => {
-    if (hash === null) return;
+    if (hash === null || this.state.childLoading) return;
 
     const url = `${web_url}/chgdir/${hash}`;
     axios
@@ -218,10 +216,11 @@ export default class Table extends Component {
   };
 
   deleteFile = (hash, dir) => {
-    if (hash === null) return;
+    if (hash === null || this.state.childLoading) return;
 
     this.setState({
-      files: this.state.files.filter(file => file.hash !== hash)
+      files: this.state.files.filter(file => file.hash !== hash),
+      childLoading: true
     });
     axios
       .delete(`${base_url}/file/${hash}`, {
@@ -232,12 +231,37 @@ export default class Table extends Component {
           files: this.state.files.filter(file => file.hash !== hash)
         })
       )
-      .catch(err => console.log(err.response));
+      .catch(err => console.log(err.response))
+      .finally(() => this.setState({ childLoading: false }));
   };
 
   uploadFile = e => {
+    if (this.state.childLoading) return;
+
     let formData = new FormData();
     formData.append("file", e.target.files[0]);
+
+    var name = e.target.files[0].name;
+    const extension = name.substring(name.lastIndexOf("."));
+    const filename = name.substring(0, name.lastIndexOf("."));
+
+    var tmpFile = {
+      name: e.target.files[0].name,
+      extension: extension,
+      loading: true,
+      filename: name,
+      parent: "",
+      is_dir: false,
+      hash: "tmpHash"
+    };
+
+    const index = this.state.files.length - 1;
+    var files = this.state.files;
+    files.splice(index, 0, tmpFile),
+      this.setState({
+        files: files,
+        childLoading: true
+      });
 
     axios
       .post(`http://${ip}:5000/api/file/${this.state.cwd}/upload`, formData, {
@@ -247,10 +271,31 @@ export default class Table extends Component {
       })
       .then(res => res.data)
       .then(data => {
-        console.log(data);
-        this.changeDir(this.state.cwd);
+        tmpFile = {
+          name: data.file.name,
+          extension: data.file.extension,
+          loading: false,
+          filename: data.file.filename,
+          parent: data.file.parent,
+          is_dir: false,
+          hash: data.file.hash
+        };
+
+        files[index] = tmpFile;
+        this.setState({
+          childLoading: false,
+          files: files
+        });
       })
-      .catch(err => console.log(err.response));
+      .catch(err => {
+        console.log(err);
+        files.splice(index, 1);
+        this.setState({
+          files: files,
+          childLoading: false
+        });
+      })
+      .finally(() => this.setState({ childLoading: false }));
   };
 
   render() {

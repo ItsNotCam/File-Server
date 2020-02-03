@@ -193,7 +193,6 @@ def unzip(path):
 
     try:
         subprocess.call(["unzip", "-o", filename], cwd=parent_dir)
-
         file = {
             "name": filename,
             "extension": "",
@@ -207,7 +206,7 @@ def unzip(path):
     except Exception as e:
         print(e)
 
-    return {"message": "Internal Server Error"}, 500
+    return {"message": "Internal Server Error: " + e}, 500
     
 
 @api_bp.route("/api/file/<string:path>/upload", methods=["POST"])
@@ -222,7 +221,16 @@ def upload_file(path, file=None):
     filepath = os.path.join(data["real_directory"], file.filename)
     if not os.path.exists(filepath):
         file.save(filepath) 
-        return {"message": "success"}, 200
+        file = {
+            "name": os.path.splitext(str(file.filename))[0],
+            "extension": os.path.splitext(str(file.filename))[1],
+            "filename": str(file.filename),
+            "parent": b64e(str(Path(data["real_directory"]).parent)),
+            "is_dir": False,
+            "hash": b64e(filepath)
+        }
+
+        return {"message": "success", "file": file}, 200
     else:
         return {"message": "File Already Exists"}, 400
 
