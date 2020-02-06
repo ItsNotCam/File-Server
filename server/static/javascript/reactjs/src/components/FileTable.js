@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import TableRow from "./TableRow";
 import axios from "axios";
-import ip from "../config";
+import ip from "../config/config";
 
-const base_url = `http://${ip}:5000/api`;
-const web_url = `http://${ip}:5000`;
+const base_url = `http://${ip}:8080/api`;
+const web_url = `http://${ip}:8080`;
 
 export default class Table extends Component {
   constructor(props) {

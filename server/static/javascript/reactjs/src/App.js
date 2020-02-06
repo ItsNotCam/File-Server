@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import FileTable from "./components/FileTable";
 import axios from "axios";
-import ip from "./config";
 
 export default class App extends Component {
   constructor(props) {
