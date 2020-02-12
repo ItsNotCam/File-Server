@@ -1,1 +1,1 @@
-module.exports = '192.168.1.3';
+module.exports = 'localhost:8080';

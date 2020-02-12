@@ -3,8 +3,8 @@ import TableRow from "./TableRow";
 import axios from "axios";
 import ip from "../config/config";
 
-const base_url = `http://${ip}:8080/api`;
-const web_url = `http://${ip}:8080`;
+const base_url = `http://${ip}/api`;
+const web_url = `http://${ip}`;
 
 export default class Table extends Component {
   constructor(props) {
@@ -264,7 +264,7 @@ export default class Table extends Component {
       });
 
     axios
-      .post(`http://${ip}:5000/api/file/${this.state.cwd}/upload`, formData, {
+      .post(`http://${ip}/api/file/${this.state.cwd}/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
