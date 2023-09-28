@@ -1,106 +1,16 @@
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
-</head>
-
-<body background="{{url_for('static', filename='media/loginbg.jpg')}}" style="background-repeat: no-repeat; 
-		background-position: center; 
-		background-attachment: fixed; 
-		background-size: cover;">
-
-    <nav class="navbar bg-nav" aria-label="breadcrumb" style="align-items: center;">
-        <!-- <ol class="breadcrumb">
-            <li class="breadcrumb-item">root</li>
-            <li class="breadcrumb-item">fileserver</li>
-            <li class="breadcrumb-item">test</li>
-            <li class="breadcrumb-item active" aria-current="page">current</li>
-        </ol> -->
-		<a class="nav-link" href="{{ url_for('web.logout') }}" method="POST">
-			<span class="text-info h5">Logout</span>
-		</a>
-    </nav>
-
-    <div class="container" style="padding-top: 10px">
-    <!-- <div class="row justify-content-space-between">
-        <div class="col-6">
-          <form
-            action="#"
-            method="POST"
-            encType="multipart/form-data"
-          >
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-folder-plus fa-lg text-white"></i>
-                </span>
-              </div>
-              <input
-                type="text"
-                name="filename"
-                class="form-control bg-dark text-white"
-                placeholder="Folder Name"
-                id="dirname"
-                on="handleDirnameChange()"
-              />
-              <div class="input-group-append">
-                <input
-                  type="submit"
-                  class="form-control btn btn-secondary disabled text-white"
-                  disabled
-                  id="create_dir"
-                  value="Create"
-                />
-              </div>
-            </div>
-          </form>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+      <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+      <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
+    </head>
+    <body>
+      <div class="container" style="padding-top: 10px">
+        <div id="root" class="container" style="padding-top: 20;">
         </div>
-        <div class="col-6">
-          <form
-            action="{{url_for('web.upload_file', path=hash)}}"
-            method="POST"
-            encType="multipart/form-data"
-          >
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-upload fa-lg text-white"></i>
-                </span>
-              </div>
-              <input
-                id="file_upload"
-                type="file"
-                name="file"
-                style="display: none"
-                onchange="update_filename()"
-              />
-              <label
-                for="file_upload"
-                class="form-control bg-dark text-light disabled"
-                id="filename_label"
-              >
-                File Name
-              </label>
-              <div class="input-group-append">
-                <input
-                  type="submit"
-                  class="form-control btn btn-secondary disabled text-white"
-                  id="file_upload_button"
-                  value="Upload"
-                  disabled
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-    </div> -->
-
-    <div id="root" class="container" style="padding-top: 20;" />
-    </div>
-    <!-- <script src="{{url_for('static', filename='javascript/MediaCreation.js')}}"></script> -->
-    <script src="{{url_for('static', filename='javascript/bundle.js')}}"></script>
-</body>
-
+      </div>
+      <script src="{{url_for('static', filename='javascript/bundle.js')}}"></script>
+    </body>
 </html>

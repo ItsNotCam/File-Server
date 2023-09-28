@@ -30,15 +30,6 @@ def b64d(encoded):
     decoded = base64.urlsafe_b64decode(encoded.encode("utf-8"))
     return str(decoded, "utf-8")
 
-def validate_session():
-    if "timeout" not in session:
-        return {"message": "Invalid Session"}, 400
-
-    if session["timeout"] < datetime.now():
-        return {"message": "Your Session has Expired"}, 400
-    
-    return {"messsage": "validated"}, 200
-
 def validate_path(path):
     try:
         directory = b64d(path)

@@ -1,0 +1,8 @@
+services:
+  flask_fileserver:
+    container_name: flask_fileserver
+    build: .
+    ports:
+      - "8080:8080"
+    image: flask_fileserver
+    context: ./
