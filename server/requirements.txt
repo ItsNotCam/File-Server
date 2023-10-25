@@ -17,5 +17,5 @@ six==1.16.0
 SQLAlchemy==1.4.49
 typing-extensions==4.1.1
 urllib3==1.25.11
-Werkzeug==2.0.3
+Werkzeug==3.0.1
 zipp==3.6.0
