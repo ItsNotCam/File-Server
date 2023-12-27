@@ -4,5 +4,10 @@ services:
     build: .
     ports:
       - "8080:8080"
-    image: flask_fileserver
-    context: ./
+    volumes:
+      - type: bind
+        source: /home/cam/File-Server/files
+        target: /files
+        volume:
+            nocopy: true
+    image: cam/fileserver
